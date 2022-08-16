@@ -29,7 +29,9 @@ fun Line(title: String, color: Color) {
         onClick = {
             context.startActivity(Intent(context, LineActivity::class.java))
         },
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent)
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
+        elevation = ButtonDefaults.elevation(defaultElevation = 0.dp, pressedElevation = 0.dp)
+
     ) {
     Box (
         modifier = Modifier.padding(15.dp),
