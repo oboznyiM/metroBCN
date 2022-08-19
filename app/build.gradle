@@ -2,6 +2,11 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
+    id "kotlin-parcelize"
+
+// Apply the Crashlytics Gradle plugin
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -24,10 +29,16 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
         release {
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -68,4 +79,30 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:30.3.2')
     implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+
+    def room_version = "2.4.3"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.2"
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
+    implementation 'androidx.compose.runtime:runtime-livedata:1.0.0-beta01'
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:30.3.1')
+
+    // Declare the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }
